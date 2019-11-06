@@ -9,8 +9,33 @@
   width: 100vw;
 }
 
-.centerStartBtn {
-  margin-left: 46vw;
-  margin-top: 70vh;
+.startButton {
+  -ms-grid-column: 2;
+  grid-column: 2;
+  width: 50% !important;
+  margin-left: 25% !important;
+}
+
+.appendedBtnsWrapper {
+  display: -ms-grid;
+  display: grid;
+  -webkit-column-gap: 1em;
+          column-gap: 1em;
+  -ms-grid-columns: 25% 50% 25%;
+      grid-template-columns: 25% 50% 25%;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding-top: 65vh;
+}
+
+.appendedBtns {
+  -ms-grid-column: 2;
+  grid-column: 2;
+}
+
+.buttonClass {
+  width: 30%;
+  margin: 1.5% !important;
 }
 /*# sourceMappingURL=home.css.map */

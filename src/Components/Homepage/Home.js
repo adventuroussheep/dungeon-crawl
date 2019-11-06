@@ -1,6 +1,6 @@
 import React from 'react';
 // import { ReactComponent } from '*.svg';
-import {getNames, namesList} from "../utils/api";
+import {getNames, namesList, getClassStats} from "../utils/api";
 import Fab from '@material-ui/core/Fab';
 import Button from "@material-ui/core/Button"
 // import {red, yellow} from "@material-ui/core/colors";
@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button"
 
 
 import "./home.css";
+import { GridList } from '@material-ui/core';
 
 
 
@@ -32,46 +33,104 @@ class HomePage extends React.Component{
     super(props);
     
     this.getNames = getNames.bind(this);
+    this.getClassStats = getClassStats.bind(this);
     // this.namesList = namesList.bind(this);
     
     this.state = {
       className: [],
       nameArray: "",
       namesList: [],
-      // namesList: ["asdf"],
+      selectedName: "",
+      charName: "",
+      charStr: "",
     }
   }
   
 
-  changeText = () => {
+  getNamesList = () => {
     getNames().then(() => {
       namesList.map((namesList, i) => {
         // this.setState({className:[...this.state.className, <button className={i} key={namesList.i}>{namesList}</button>]});
-        this.setState({className:[...this.state.className, <Button variant="filled" color="secondary" className={i}
+        this.setState({className:[...this.state.className, <Button
+        onClick={this.getNamesStats}
+        variant="contained" 
+        color="secondary" key={i} 
+        className={"buttonClass btn"+i}
+        value={namesList}
         key={namesList.i}> {namesList}
         </Button>]});
         return namesList;
       })
-
     })
   }
+  
+  
+  getNamesStats = event => {
+    this.setState({ 
+      selectedName: `${event.currentTarget.value}`
+    }, () => {
+      const userSelect = this.state.selectedName.toLowerCase();
+      getStatsCall();
+      async function getStatsCall(){
+        console.log(userSelect);
+        var response = await fetch("https://cors-anywhere.herokuapp.com/http://dnd5eapi.co/api/classes/" + "" +userSelect+""); 
+        
+        console.log(response);
+        let data = await response.json();
+        console.log(data)
+      }
+    });
+  }
+
+      
+      
+      // getStatsCall = () =>{
+      //   async function getNames(){
+        
+      //   console.log(this.state.selectedName);
+        
+      //   var response = await fetch("https://cors-anywhere.herokuapp.com/http://dnd5eapi.co/api/classes/"); 
+        
+      //   let data = await response.json();
+        
+      //   console.log(data)
+      //   }
+      // }
+    
+    
+
+
+
+
+
 
     render(){
       return (
         
       <div className="startWrapper">
-      <h1>err, {this.props.repos}</h1>
-      <h1> {this.state.className}</h1>
-      <div className="centerStartBtn">
-      <Fab onClick={this.changeText} variant="extended" color="secondary" aria-label="delete" className="startButton">
+        <div>
+
+        <div className="charDisplayDiv">
+          
+        </div>
+
+        <div  className="appendedBtnsWrapper">
+
+            <div className="appendedBtns"> {this.state.className}</div>
+
+
+      <Fab onClick={this.getNamesList} variant="extended" color="secondary" aria-label="delete" className="startButton">
         Start
       </Fab>
-      </div>
-      <h3>{namesList}aa</h3>
+        </div>
+
+      
+      {/* <h3>{namesList}</h3> */}
 {/* 
-     <Text>
-      {this.props.className}
-     </Text> */}
+  <Text>
+  {this.props.className}
+</Text> */}
+</div>
       </div>
   )
 }
