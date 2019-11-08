@@ -13,7 +13,6 @@ import { GridList } from '@material-ui/core';
 
 
 
-
 // var api = require('../Components/utils/api');
 // var nameArray = [];
 
@@ -29,6 +28,7 @@ import { GridList } from '@material-ui/core';
 
 
 class HomePage extends React.Component{
+  
   constructor(props){
     super(props);
     
@@ -41,6 +41,8 @@ class HomePage extends React.Component{
       nameArray: "",
       namesList: [],
       selectedName: "",
+
+
       charName: "",
       charStr: "",
     }
@@ -65,6 +67,7 @@ class HomePage extends React.Component{
   }
   
   
+  
   getNamesStats = event => {
     this.setState({ 
       selectedName: `${event.currentTarget.value}`
@@ -74,10 +77,16 @@ class HomePage extends React.Component{
       async function getStatsCall(){
         console.log(userSelect);
         var response = await fetch("https://cors-anywhere.herokuapp.com/http://dnd5eapi.co/api/classes/" + "" +userSelect+""); 
-        
-        console.log(response);
-        let data = await response.json();
-        console.log(data)
+      
+
+        let data = await response.json().then((data) => {
+          console.log(data);
+          this.setState({charName: data.name});
+        })
+      
+         
+        // console.log(data.name);
+        // var DataName = data.name;
       }
     });
   }
@@ -111,7 +120,8 @@ class HomePage extends React.Component{
         <div>
 
         <div className="charDisplayDiv">
-          
+         <img src="https://via.placeholder.com/200"></img>        
+          <h1>{this.state.charName}</h1>
         </div>
 
         <div  className="appendedBtnsWrapper">
